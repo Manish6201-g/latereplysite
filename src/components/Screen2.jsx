@@ -19,18 +19,20 @@ export default function Screen2({ onNext }) {
       </motion.div>
       <div className="space-y-4">
         <h1 className="text-2xl md:text-3xl font-semibold text-slate-200">
-          I've been waiting forever
+          {"I've been waiting forever"}
         </h1>
         <p className="text-lg text-slate-400 font-medium leading-relaxed">
-          You reply so slow, my phone literally went to sleep, woke up, and went back to sleep waiting for your text. 📱💤
+          {"You reply so slow, my phone literally went to sleep, woke up, and went back to sleep waiting for your text. 📱💤"}
         </p>
       </div>
-      <button
+      <motion.button
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
         onClick={onNext}
-        className="px-8 py-3 rounded-full bg-pink-500/10 border border-pink-500/30 hover:bg-pink-500/20 transition-all duration-300 text-pink-300 font-semibold"
+        className="px-8 py-3 rounded-full bg-pink-500/10 border border-pink-500/30 hover:bg-pink-500/20 transition-all duration-300 text-pink-300 font-semibold cursor-pointer"
       >
         But you know what...
-      </button>
+      </motion.button>
     </motion.div>
   );
 }

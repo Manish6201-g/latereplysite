@@ -20,12 +20,14 @@ export default function Screen1({ onNext }) {
             <h1 className="text-2xl md:text-3xl font-semibold tracking-wide text-slate-200">
                 Oh wow, you remembered I exist? 😒
             </h1>
-            <button
+            <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={onNext}
-                className="px-6 py-3 rounded-full bg-slate-800/50 border border-slate-700 hover:bg-slate-800 hover:border-pink-500/50 transition-all duration-300 text-slate-300 hover:text-pink-300 shadow-lg font-medium"
+                className="px-6 py-3 rounded-full bg-slate-800/50 border border-slate-700 hover:bg-slate-800 hover:border-pink-500/50 transition-all duration-300 text-slate-300 hover:text-pink-300 shadow-lg font-medium cursor-pointer"
             >
                 Anyway, moving on...
-            </button>
+            </motion.button>
         </motion.div>
     );
 }
