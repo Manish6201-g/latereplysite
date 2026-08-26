@@ -54,10 +54,10 @@ export default function FloatingElements({ step }) {
     // 1. Ambient particles (35 particles floating upwards continually)
     const NUM_AMBIENT = 35;
     for (let i = 0; i < NUM_AMBIENT; i++) {
-      const size = Math.random() * 26 + 14; // 14px to 40px
+      const size = Math.random() * 10 + 8; // delicate sizes: 8px to 18px
       const type = getParticleType(i);
-      const baseVy = -(Math.random() * 0.7 + 0.4); // float up speed
-      const baseVx = (Math.random() - 0.5) * 0.4; // side drift
+      const baseVy = -(Math.random() * 0.6 + 0.3); // float up speed
+      const baseVx = (Math.random() - 0.5) * 0.3; // side drift
       const rotation = Math.random() * 360;
       const rotSpeed = (Math.random() - 0.5) * 0.8;
 
@@ -72,13 +72,13 @@ export default function FloatingElements({ step }) {
         type,
         rotation,
         rotSpeed,
-        scale: Math.random() * 0.35 + 0.8,
+        scale: Math.random() * 0.25 + 0.6, // scale 0.6x to 0.85x
         pulseSpeed: Math.random() * 0.03 + 0.01,
         pulseOffset: Math.random() * 10,
-        opacity: Math.random() * 0.3 + 0.25,
-        targetOpacity: Math.random() * 0.25 + 0.35,
+        opacity: Math.random() * 0.25 + 0.2,
+        targetOpacity: Math.random() * 0.2 + 0.3,
         swaySpeed: Math.random() * 0.018 + 0.006,
-        swayRange: Math.random() * 45 + 20,
+        swayRange: Math.random() * 35 + 15,
         swayOffset: Math.random() * 100,
         isBurst: false,
         active: true,
@@ -90,7 +90,7 @@ export default function FloatingElements({ step }) {
     const NUM_BURST = 35;
     for (let i = 0; i < NUM_BURST; i++) {
       const index = NUM_AMBIENT + i;
-      const size = Math.random() * 22 + 12;
+      const size = Math.random() * 8 + 6; // delicate burst sizes: 6px to 14px
       const type = getParticleType(index);
       const rotation = Math.random() * 360;
       const rotSpeed = (Math.random() - 0.5) * 1.5;
@@ -101,14 +101,14 @@ export default function FloatingElements({ step }) {
         vx: 0,
         vy: 0,
         baseVx: 0,
-        baseVy: -(Math.random() * 0.9 + 0.5),
+        baseVy: -(Math.random() * 0.8 + 0.4),
         size,
         type,
         rotation,
         rotSpeed,
         scale: 0,
         opacity: 0,
-        targetOpacity: Math.random() * 0.4 + 0.5,
+        targetOpacity: Math.random() * 0.3 + 0.4,
         swaySpeed: Math.random() * 0.03 + 0.015,
         swayRange: Math.random() * 30 + 10,
         swayOffset: Math.random() * 100,
@@ -138,6 +138,9 @@ export default function FloatingElements({ step }) {
         const p = particles[i];
         const dom = domRefs.current[i];
         if (!p || !dom) continue;
+
+        dom.style.width = `${p.size}px`;
+        dom.style.height = `${p.size}px`;
 
         if (p.isBurst && !p.active) {
           dom.style.transform = "translate3d(-1000px, -1000px, 0) scale(0)";
