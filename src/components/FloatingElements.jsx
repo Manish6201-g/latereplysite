@@ -54,7 +54,7 @@ export default function FloatingElements({ step }) {
     // 1. Ambient particles (35 particles floating upwards continually)
     const NUM_AMBIENT = 35;
     for (let i = 0; i < NUM_AMBIENT; i++) {
-      const size = Math.random() * 10 + 8; // delicate sizes: 8px to 18px
+      const size = Math.random() * 14 + 14; // balanced medium sizes: 14px to 28px
       const type = getParticleType(i);
       const baseVy = -(Math.random() * 0.6 + 0.3); // float up speed
       const baseVx = (Math.random() - 0.5) * 0.3; // side drift
@@ -72,7 +72,7 @@ export default function FloatingElements({ step }) {
         type,
         rotation,
         rotSpeed,
-        scale: Math.random() * 0.25 + 0.6, // scale 0.6x to 0.85x
+        scale: Math.random() * 0.3 + 0.75, // scale 0.75x to 1.05x
         pulseSpeed: Math.random() * 0.03 + 0.01,
         pulseOffset: Math.random() * 10,
         opacity: Math.random() * 0.25 + 0.2,
@@ -90,7 +90,7 @@ export default function FloatingElements({ step }) {
     const NUM_BURST = 35;
     for (let i = 0; i < NUM_BURST; i++) {
       const index = NUM_AMBIENT + i;
-      const size = Math.random() * 8 + 6; // delicate burst sizes: 6px to 14px
+      const size = Math.random() * 12 + 10; // balanced burst sizes: 10px to 22px
       const type = getParticleType(index);
       const rotation = Math.random() * 360;
       const rotSpeed = (Math.random() - 0.5) * 1.5;
