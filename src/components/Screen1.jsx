@@ -1,38 +1,4 @@
 import { Frown } from "lucide-react";
-<<<<<<< HEAD
-import { motion } from "framer-motion";
-
-export default function Screen1({ onNext }) {
-    return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0, transition: { delay: 0.8, duration: 0.8, ease: "easeOut" } }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-center space-y-8 will-change-transform"
-        >
-            <motion.div
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="flex justify-center"
-            >
-                <Frown className="w-16 h-16 text-rose-500 opacity-80" />
-            </motion.div>
-            <h1 className="text-2xl md:text-3xl font-semibold tracking-wide text-slate-200">
-                Oh wow, you remembered I exist? 😒
-            </h1>
-            <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={onNext}
-                className="px-6 py-3 rounded-full bg-slate-800/50 border border-slate-700 hover:bg-slate-800 hover:border-pink-500/50 transition-all duration-300 text-slate-300 hover:text-pink-300 shadow-lg font-medium cursor-pointer"
-            >
-                Anyway, moving on...
-            </motion.button>
-        </motion.div>
-    );
-}
-=======
 import { motion, useReducedMotion } from "framer-motion";
 
 export default function Screen1({ onNext }) {
@@ -41,11 +7,7 @@ export default function Screen1({ onNext }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
-      animate={{
-        opacity: 1,
-        y: 0,
-        transition: { delay: 0.8, duration: 0.8, ease: "easeOut" },
-      }}
+      animate={{ opacity: 1, y: 0, transition: { delay: 0.8, duration: 0.8, ease: "easeOut" } }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
       className="text-center space-y-8 will-change-transform"
@@ -64,15 +26,15 @@ export default function Screen1({ onNext }) {
       <h1 className="text-2xl md:text-3xl font-semibold tracking-wide text-slate-200">
         Oh wow, you remembered I exist? 😒
       </h1>
-      <button
+      <motion.button
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
         onClick={onNext}
-        className="px-6 py-3 rounded-full bg-slate-800/50 border border-slate-700 hover:bg-slate-800 hover:border-pink-500/50 transition-all duration-300 text-slate-300 hover:text-pink-300 shadow-lg font-medium"
+        className="px-6 py-3 rounded-full bg-slate-800/50 border border-slate-700 hover:bg-slate-800 hover:border-pink-500/50 transition-all duration-300 text-slate-300 hover:text-pink-300 shadow-lg font-medium cursor-pointer"
         aria-label="Move to next screen"
       >
         Anyway, moving on...
-      </button>
+      </motion.button>
     </motion.div>
   );
 }
-
->>>>>>> 461800a39743c9a239d454a9cf70591a4f0a6cd2

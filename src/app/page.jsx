@@ -6,11 +6,8 @@ import Screen1 from "@/components/Screen1";
 import Screen2 from "@/components/Screen2";
 import Screen3 from "@/components/Screen3";
 import FinalScreen from "@/components/FinalScreen";
-<<<<<<< HEAD
 import FloatingElements from "@/components/FloatingElements";
 import CursorTrail from "@/components/CursorTrail";
-=======
->>>>>>> 461800a39743c9a239d454a9cf70591a4f0a6cd2
 
 const Background = () => (
   <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
@@ -25,16 +22,10 @@ export default function Website() {
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-slate-200 flex flex-col items-center justify-center p-6 relative overflow-hidden">
       <Background />
-<<<<<<< HEAD
       <FloatingElements step={step} />
       <CursorTrail />
 
-      <div className="w-full max-w-md relative z-10 flex flex-col items-center justify-center min-h-100">
-=======
-
       <div className="w-full max-w-md relative z-10 flex flex-col items-center justify-center min-h-[360px]">
-
->>>>>>> 461800a39743c9a239d454a9cf70591a4f0a6cd2
         <AnimatePresence mode="wait">
           {step === 0 && <Screen1 key="screen1" onNext={() => setStep(1)} />}
           {step === 1 && <Screen2 key="screen2" onNext={() => setStep(2)} />}
@@ -51,13 +42,9 @@ export default function Website() {
           duration: 0.8,
           delay: 0.8,
         }}
-        className="fixed bottom-4 right-4 text-sm text-white/40 pointer-events-none z-50 font-light">
-<<<<<<< HEAD
-        made by Manish
-
-=======
-        Made with ❤️ by {" Manish"}
->>>>>>> 461800a39743c9a239d454a9cf70591a4f0a6cd2
+        className="fixed bottom-4 right-4 text-sm text-white/40 pointer-events-none z-50 font-light"
+      >
+        Made with ❤️ by Manish
       </motion.div>
     </div>
   );

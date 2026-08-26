@@ -1,4 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
+
+const emptySubscribe = () => () => {};
+const getSnapshot = () => true;
+const getServerSnapshot = () => false;
 
 // A stable deterministic function to decide particle type (heart/bubble) based on index
 // to avoid accessing ref during render
@@ -7,16 +11,11 @@ function getIsHeart(i) {
 }
 
 export default function FloatingElements({ step }) {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(emptySubscribe, getSnapshot, getServerSnapshot);
   const particlesRef = useRef([]);
   const domRefs = useRef([]);
   const dimensions = useRef({ width: 1000, height: 800 });
   const prevStep = useRef(step);
-
-  // Set mounted on client to prevent SSR mismatch
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // Track screen size
   useEffect(() => {

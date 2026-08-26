@@ -1,5 +1,5 @@
-<<<<<<< HEAD
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Volume2, VolumeX, RotateCcw, Play, Pause } from "lucide-react";
 
@@ -20,25 +20,22 @@ export default function FinalScreen() {
 
     useEffect(() => {
         if (audioRef.current) {
-            // Unmute initially or preserve local state
             audioRef.current.muted = isMuted;
             audioRef.current.play()
                 .then(() => setIsPlaying(true))
-                .catch(e => console.log("Audio play failed:", e));
+                .catch(e => console.log("Audio play failed (waiting for user interaction):", e));
         }
-    }, []);
+    }, [isMuted]);
 
     const handleTimeUpdate = () => {
         if (!audioRef.current) return;
         const time = audioRef.current.currentTime;
 
-        // Find the active lyric index based on current playback position
         const activeLyricIndex = lyrics.findIndex(
             (lyric) => time >= lyric.start && time < lyric.end
         );
         setCurrentIndex(activeLyricIndex);
 
-        // Transition to black overlay when the song lyrics sequence finishes
         if (time >= 15.5 && !isOver) {
             setIsOver(true);
         }
@@ -76,7 +73,7 @@ export default function FinalScreen() {
 
     return (
         <>
-            {/* Music Controls - Fixed in top corner with higher z-index to hover over everything */}
+            {/* Music Controls */}
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -85,16 +82,18 @@ export default function FinalScreen() {
             >
                 <button
                     onClick={handlePlayPause}
-                    className="p-2 hover:bg-white/10 rounded-full transition-all duration-300 text-slate-300 hover:text-pink-400 active:scale-95"
+                    className="p-2 hover:bg-white/10 rounded-full transition-all duration-300 text-slate-300 hover:text-pink-400 active:scale-95 cursor-pointer"
                     title={isPlaying ? "Pause" : "Play"}
+                    aria-label={isPlaying ? "Pause audio" : "Play audio"}
                 >
                     {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-slate-300 hover:fill-pink-400" />}
                 </button>
 
                 <button
                     onClick={handleToggleMute}
-                    className="p-2 hover:bg-white/10 rounded-full transition-all duration-300 text-slate-300 hover:text-pink-400 active:scale-95"
+                    className="p-2 hover:bg-white/10 rounded-full transition-all duration-300 text-slate-300 hover:text-pink-400 active:scale-95 cursor-pointer"
                     title={isMuted ? "Unmute" : "Mute"}
+                    aria-label={isMuted ? "Unmute audio" : "Mute audio"}
                 >
                     {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
                 </button>
@@ -103,8 +102,9 @@ export default function FinalScreen() {
 
                 <button
                     onClick={handleReplay}
-                    className="p-2 hover:bg-white/10 rounded-full transition-all duration-300 text-slate-300 hover:text-pink-400 active:scale-95 flex items-center gap-1.5 text-xs font-semibold pr-3 pl-2"
+                    className="p-2 hover:bg-white/10 rounded-full transition-all duration-300 text-slate-300 hover:text-pink-400 active:scale-95 flex items-center gap-1.5 text-xs font-semibold pr-3 pl-2 cursor-pointer"
                     title="Replay"
+                    aria-label="Replay audio and animation"
                 >
                     <RotateCcw className="w-4 h-4" />
                     <span>Replay</span>
@@ -126,7 +126,13 @@ export default function FinalScreen() {
                     onPause={() => setIsPlaying(false)}
                 />
 
-                <img src="sticker.webp" alt="sticker" className="absolute w-44 -top-24 left-1/2 -translate-x-1/2 z-20 pointer-events-none select-none" />
+                <Image
+                    src="/sticker.webp"
+                    alt="sticker"
+                    width={176}
+                    height={176}
+                    className="absolute w-44 -top-24 left-1/2 -translate-x-1/2 z-20 pointer-events-none select-none h-auto"
+                />
 
                 <div className="bg-slate-900/60 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl shadow-pink-900/20 relative overflow-hidden group min-h-50 flex flex-col items-center justify-center">
                     <div className="absolute -top-24 -right-24 w-48 h-48 bg-pink-500/10 rounded-full blur-3xl" />
@@ -152,7 +158,7 @@ export default function FinalScreen() {
                 </div>
             </motion.div>
 
-            {/* The Black Overlay at the end */}
+            {/* End overlay */}
             <AnimatePresence>
                 {isOver && (
                     <motion.div
@@ -168,10 +174,10 @@ export default function FinalScreen() {
                             transition={{ delay: 1, duration: 1 }}
                             className="text-center space-y-4 max-w-xs px-6"
                         >
-                            <p className="text-slate-400 font-light text-sm tracking-widest uppercase">The End</p>
+                            <p className="text-slate-400 font-light text-sm tracking-widest uppercase">The End ❤️</p>
                             <button
                                 onClick={handleReplay}
-                                className="px-6 py-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white hover:text-pink-300 hover:border-pink-500/30 transition-all duration-300 font-medium text-sm flex items-center gap-2 mx-auto shadow-lg"
+                                className="px-6 py-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white hover:text-pink-300 hover:border-pink-500/30 transition-all duration-300 font-medium text-sm flex items-center gap-2 mx-auto shadow-lg cursor-pointer"
                             >
                                 <RotateCcw className="w-4 h-4" />
                                 Play Again
@@ -183,209 +189,3 @@ export default function FinalScreen() {
         </>
     );
 }
-=======
-import { useEffect, useMemo, useRef, useState } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-
-export default function FinalScreen() {
-  const prefersReducedMotion = useReducedMotion();
-
-  const audioRef = useRef(null);
-  const timeoutsRef = useRef([]);
-
-  const [currentIndex, setCurrentIndex] = useState(-1);
-  const [isOver, setIsOver] = useState(false);
-  const [isStarted, setIsStarted] = useState(false);
-
-  const lyrics = useMemo(
-    () => [
-      { text: "Vaada tha kab ka", duration: 2000 },
-      { text: "Ab jaa ke aaye", duration: 2000 },
-      { text: "Phir bhi ganeemat, aaye toh hain", duration: 3700 },
-      { text: "Aaiye, aaiye, shauq se aaiye", duration: 3800 },
-      { text: "Aaiye, aake iss baar na jaiye ❤️", duration: 3000 },
-    ],
-    []
-  );
-
-  const clearAllTimeouts = () => {
-    timeoutsRef.current.forEach((id) => clearTimeout(id));
-    timeoutsRef.current = [];
-  };
-
-  const start = async () => {
-    if (isStarted) return;
-    setIsStarted(true);
-
-    // Start audio (best-effort). If blocked, lyrics still progress.
-    if (audioRef.current) {
-      try {
-        audioRef.current.currentTime = 0;
-        await audioRef.current.play();
-      } catch (e) {
-        // autoplay restrictions can block play; user gesture already happened
-        console.log("Audio play failed:", e);
-      }
-    }
-
-    clearAllTimeouts();
-    setCurrentIndex(0);
-
-    const advanceLyric = (index) => {
-      if (index < lyrics.length - 1) {
-        const id = setTimeout(() => {
-          setCurrentIndex(index + 1);
-          advanceLyric(index + 1);
-        }, lyrics[index].duration);
-        timeoutsRef.current.push(id);
-      } else {
-        const id = setTimeout(() => {
-          setIsOver(true);
-        }, 2000);
-        timeoutsRef.current.push(id);
-      }
-    };
-
-    // Keep initial beat slightly delayed for nicer entrance.
-    const id = setTimeout(() => {
-      advanceLyric(0);
-    }, 100);
-    timeoutsRef.current.push(id);
-  };
-
-  const replay = () => {
-    setIsOver(false);
-    setCurrentIndex(-1);
-    setIsStarted(false);
-    clearAllTimeouts();
-
-    // Attempt immediate start; if browser blocks, user can tap start again.
-    start();
-  };
-
-  useEffect(() => {
-    // Best-effort autoplay for desktop.
-    // If it fails (or reduced motion is enabled), user can tap to start.
-    if (!prefersReducedMotion) {
-      start();
-    }
-
-    return () => {
-      clearAllTimeouts();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [prefersReducedMotion]);
-
-
-  const lyricMotion = prefersReducedMotion
-    ? {
-        initial: { opacity: 0, y: 0, scale: 1 },
-        animate: { opacity: 1, y: 0, scale: 1 },
-        exit: { opacity: 0, y: 0, scale: 1 },
-      }
-    : {
-        initial: { opacity: 0, y: 20, scale: 0.95, filter: "blur(6px)" },
-        animate: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" },
-        exit: { opacity: 0, y: -20, scale: 0.95, filter: "blur(6px)" },
-      };
-
-  return (
-    <>
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="w-full max-w-sm relative z-10 will-change-transform"
-      >
-        <audio ref={audioRef} src="/music.mp3" preload="auto" />
-
-        <img
-          src="sticker.webp"
-          alt="sticker"
-          className="absolute w-44 -top-24 left-1/2 -translate-x-1/2 z-20"
-        />
-
-        <div className="bg-slate-900/60 backdrop-blur-lg border border-white/10 rounded-3xl p-8 shadow-2xl shadow-pink-900/20 relative overflow-hidden group min-h-50 flex flex-col items-center justify-center">
-
-          <div className="absolute -top-24 -right-24 w-48 h-48 bg-pink-500/10 rounded-full blur-3xl" />
-
-
-          <div className="relative z-10 flex flex-col items-center space-y-10 w-full">
-            <div className="w-full min-h-15 flex items-center justify-center relative">
-              <AnimatePresence mode="wait">
-                <motion.p
-                  key={currentIndex}
-                  {...lyricMotion}
-                  transition={{ duration: 0.7, ease: "easeInOut" }}
-                  className="text-center text-slate-200 text-xl md:text-2xl font-semibold italic tracking-wide absolute w-full"
-                >
-                  {currentIndex >= 0 ? lyrics[currentIndex]?.text : ""}
-                </motion.p>
-              </AnimatePresence>
-            </div>
-
-            {!isStarted && (
-              <button
-                onClick={start}
-                className="px-6 py-3 rounded-full bg-slate-800/50 border border-slate-700 hover:bg-slate-800 hover:border-pink-500/50 transition-all duration-300 text-slate-300 hover:text-pink-300 shadow-lg font-medium"
-                aria-label="Tap to start music"
-              >
-                Tap to start music 🎶
-              </button>
-            )}
-          </div>
-
-        </div>
-      </motion.div>
-
-      <AnimatePresence>
-        {isOver && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1.2, ease: "easeInOut" }}
-            className="fixed inset-0 bg-black/95 z-50 pointer-events-auto flex items-center justify-center p-6"
-          >
-            <motion.div
-              initial={{ y: 20, opacity: 0, scale: 0.98 }}
-              animate={{ y: 0, opacity: 1, scale: 1 }}
-              exit={{ y: 20, opacity: 0, scale: 0.98 }}
-              transition={{ duration: prefersReducedMotion ? 0.2 : 0.6, ease: "easeOut" }}
-              className="w-full max-w-sm bg-slate-900/70 backdrop-blur-lg border border-white/10 rounded-3xl p-8 shadow-2xl"
-            >
-              <div className="flex items-center justify-center mb-4">
-                <span className="text-4xl">❤️</span>
-              </div>
-              <h2 className="text-2xl font-semibold text-slate-200 text-center">
-                Happy ending ❤️
-              </h2>
-              <p className="mt-2 text-slate-400 text-center leading-relaxed">
-                You made it. Replay the lyrics or watch it again.
-              </p>
-
-              <div className="mt-6 flex flex-col sm:flex-row gap-3">
-                <button
-                  onClick={replay}
-                  className="px-6 py-3 rounded-full bg-rose-500/20 border border-rose-500/50 hover:bg-rose-500/30 transition-all duration-300 text-rose-200 font-semibold"
-                >
-                  Replay
-                </button>
-                <button
-                  onClick={() => {
-                    // lightweight dismiss: just fade overlay out (keep state)
-                    setIsOver(false);
-                  }}
-                  className="px-6 py-3 rounded-full bg-slate-800/50 border border-slate-700 hover:bg-slate-800 transition-all duration-300 text-slate-300 font-semibold"
-                >
-                  Close
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
-  );
-}
-
->>>>>>> 461800a39743c9a239d454a9cf70591a4f0a6cd2
